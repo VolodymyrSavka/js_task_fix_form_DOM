@@ -10,18 +10,32 @@ all.forEach((form) => {
     const label = document.createElement('label');
 
     label.className = 'field-label';
-    label.setAttribute('for', `${element.name}idea`);
-    element.id = `${element.name}idea`;
+
+    let inputId = element.id;
+
+    if (!element.id) {
+      inputId = `${element.name}idea`;
+      element.id = inputId;
+    }
+    label.setAttribute('for', inputId);
 
     const inputName = element.name;
     let newName = '';
+    let previousChar = '';
 
     for (const char of inputName) {
-      if (char === char.toUpperCase()) {
+      if (
+        char === char.toUpperCase() &&
+        previousChar !== ' ' &&
+        newName !== ''
+      ) {
         newName += ` ${char}`;
+      } else if (char === '_' || char === '-') {
+        newName += ' ';
       } else {
         newName += char;
       }
+      previousChar = char;
     }
 
     newName = newName[0].toUpperCase() + newName.slice(1);
